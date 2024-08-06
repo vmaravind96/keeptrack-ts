@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Project } from './Project';
-import ProjectCard from './ProjectCard';
-import ProjectForm from './ProjectForm';
+import React, { useState } from "react";
+import { Project } from "./Project";
+import ProjectCard from "./ProjectCard";
+import ProjectForm from "./ProjectForm";
+import { on } from "events";
 
 interface ProjectListProps {
   projects: Project[];
@@ -19,6 +20,11 @@ function ProjectList({ projects, onSave }: ProjectListProps) {
     setProjectBeingEdited({});
   };
 
+  const save = (project: Project) => {
+    setProjectBeingEdited({});
+    onSave(project);
+  };
+
   return (
     <div className="row">
       {projects.map((project) => (
@@ -26,7 +32,7 @@ function ProjectList({ projects, onSave }: ProjectListProps) {
           {project === projectBeingEdited ? (
             <ProjectForm
               project={project}
-              onSave={onSave}
+              onSave={()=> save(project)}
               onCancel={cancelEditing}
             />
           ) : (
